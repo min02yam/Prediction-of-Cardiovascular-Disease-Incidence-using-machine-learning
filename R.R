@@ -1,0 +1,2 @@
+getwd()
+rm(list=ls())
