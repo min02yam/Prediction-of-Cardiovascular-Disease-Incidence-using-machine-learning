@@ -1,5 +1,6 @@
 getwd()
 rm(list=ls())
+<<<<<<< HEAD
 
 df=read.csv("data/hospital_rename.csv")
 require(dplyr)
@@ -251,3 +252,5 @@ plot(x, col = cl$cluster)
 points(cl$centers, col = 1:5, pch = 8)
 
 
+=======
+>>>>>>> parent of 99bb23a (220719)
