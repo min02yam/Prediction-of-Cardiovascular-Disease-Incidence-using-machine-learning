@@ -211,12 +211,13 @@ anscols = paste("lead", cols, sep="_")
 DT[, (anscols) := shift(.SD, 1, 0, "lead"), .SDcols=cols]
 DT
 
-##########################k-means
+#############################k-means##################
 require(graphics)
 
 # a 2-dimensional example
 x <- rbind(matrix(rnorm(100, sd = 0.3), ncol = 2),
            matrix(rnorm(100, mean = 1, sd = 0.3), ncol = 2))
+print(x)
 colnames(x) <- c("x", "y")
 (cl <- kmeans(x, 2))
 plot(x, col = cl$cluster)
