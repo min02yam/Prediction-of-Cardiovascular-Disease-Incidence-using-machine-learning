@@ -147,6 +147,7 @@ ASOS_상대습도 = dbGetQuery(conn,
 write.csv(ASOS_상대습도, "export/ASOS_상대습도.csv", row.names = FALSE)
 View(ASOS_상대습도)
 ###########################################################################
+##0722
 # -강수(RN) 요소 
 ASOS_강수 = dbGetQuery(conn,
                    "SELECT * 
@@ -173,7 +174,127 @@ ASOS_바람 = dbGetQuery(conn,
 write.csv(ASOS_바람, "export/ASOS_바람.csv", row.names = FALSE)
 View(ASOS_바람)
 
-#################################################
+#######################################################################
+#######################################################################
 #황사
+# DB_YDST_APS (DB:황사:APS)
+황사_APS_MI10AVG = dbGetQuery(conn,
+                   "SELECT *
+                    FROM DB_YDST_APS
+                    WHERE TM LIKE '2011%'
+                    OR TM LIKE '2012%'
+                    OR TM LIKE '2013%'
+                    OR TM LIKE '2014%'
+                    OR TM LIKE '2015%'
+                    OR TM LIKE '2016%' ")
 
-DB_YDST_PM10_KMA_TIM
+
+write.csv(황사_APS_MI10AVG, "export/황사_APS_MI10AVG.csv", row.names = FALSE)
+
+# ~~DB_YDST_AQMS_MI (DB:황사:AQMS:분) ~~ -> 2010년까지밖에없음
+황사_AQMS_MI = dbGetQuery(conn,
+                   "SELECT *
+                    FROM DB_YDST_AQMS_MI
+                    WHERE (TM LIKE '2012%'
+                    OR TM LIKE '2013%'
+                    OR TM LIKE '2014%'
+                    OR TM LIKE '2015%'
+                    OR TM LIKE '2016%')"
+                    )
+ write.csv(황사_AQMS_MI, "export/황사_AQMS_MI.csv", row.names = FALSE)
+
+# DB_YDST_PM10_CMA_MI (DB:황사:PM10:중국기상청: 분)
+황사_PM10_CMA_MI = dbGetQuery(conn,
+                   "SELECT *
+                    FROM DB_YDST_PM10_CMA_MI
+                    WHERE (TM LIKE '2012%'
+                    OR TM LIKE '2013%'
+                    OR TM LIKE '2014%'
+                    OR TM LIKE '2015%'
+                    OR TM LIKE '2016%')"
+                    )
+ write.csv(황사_PM10_CMA_MI, "export/황사_PM10_CMA_MI.csv", row.names = FALSE)
+# DB_YDST_PM10_KCCAR_MI (DB:황사:PM10:KCCAR: 분)   - 한중공동기상관측
+황사_PM10_KCCAR_MI = dbGetQuery(conn,
+                   "SELECT *
+                    FROM DB_YDST_PM10_KCCAR_MI
+                    WHERE (TM LIKE '2012%'
+                    OR TM LIKE '2013%'
+                    OR TM LIKE '2014%'
+                    OR TM LIKE '2015%'
+                    OR TM LIKE '2016%')"
+                    )
+ write.csv(황사_PM10_KCCAR_MI, "export/황사_PM10_KCCAR_MI.csv", row.names = FALSE)
+# DB_YDST_PM10_KMA_MI ( DB:황사:PM10:기상청: 분)
+황사_PM10_KMA_MI = dbGetQuery(conn,
+                   "SELECT *
+                    FROM DB_YDST_PM10_KMA_MI 
+                    WHERE (TM LIKE '2012%'
+                    OR TM LIKE '2013%'
+                    OR TM LIKE '2014%'
+                    OR TM LIKE '2015%'
+                    OR TM LIKE '2016%')"
+                    )
+ write.csv(황사_PM10_KMA_MI, "export/황사_PM10_KMA_MI.csv", row.names = FALSE)
+# !! DB_YDST_PM10_KMA_TIM   ( DB:황사:PM10:기상청: 시)   ##부유분진(PM10), 날씨마루
+황사_PM10_KMA_H = dbGetQuery(conn,
+                   "SELECT *
+                    FROM DB_YDST_PM10_KMA_TIM 
+                    WHERE (TM LIKE '2012%'
+                    OR TM LIKE '2013%'
+                    OR TM LIKE '2014%'
+                    OR TM LIKE '2015%'
+                    OR TM LIKE '2016%')"
+                    )
+ write.csv(황사_PM10_KMA_H, "export/황사_PM10_KMA_H.csv", row.names = FALSE)
+
+
+#########################################################################
+#########################################################################
+# WARN_CODE 구역별특보종류및상태 TM_FC(발표시각)
+# 확인
+WARN_CODE = dbGetQuery(conn,
+                   "SELECT *
+                    FROM WARN_CODE
+                  WHERE (TM_FC LIKE '2012%'
+                  OR TM_FC LIKE '2013%'
+                  OR TM_FC LIKE '2014%'
+                  OR TM_FC LIKE '2015%'
+                  OR TM_FC LIKE '2016%')"
+                    )
+
+# DB_SFC_SESN_PHNMN_DD (DB:지상:계절:현상:일 DB 지상기상관측 계절:현상:일) TMA
+계절현상_YN = dbGetQuery(conn,
+                   "SELECT *
+                    FROM DB_SFC_SESN_PHNMN_DD
+                    LIMIT 10")
+
+계절현상_YN= dbGetQuery(conn,
+             "SELECT *
+             FROM DB_SFC_SESN_PHNMN_DD
+             WHERE (TMA LIKE '2012%'
+             OR TMA LIKE '2013%'
+             OR TMA LIKE '2014%'
+             OR TMA LIKE '2015%'
+             OR TMA LIKE '2016%')"
+             )
+
+ ##### 지점
+ library(readr)
+ 황사관측지점 = read_csv("Readme/AreaInfo/황사관측지점.csv")
+ write.csv(황사관측지점, "export/황사관측지점.csv", row.names = FALSE)
+ 
+
+ 동네예보구역 = read_csv("Readme/AreaInfo/동네예보구역.csv")
+ 특보구역 = read_csv("Readme/AreaInfo/특보구역.csv")
+ 특보명령 = read_csv("Readme/AreaInfo/특보명령.csv")
+ 특보수준 = read_csv("Readme/AreaInfo/특보수준.csv")
+ 특보타입 = read_csv("Readme/AreaInfo/특보타입.csv")
+ 
+ 
+ write.csv(동네예보구역, "export/동네예보구역.csv", row.names = FALSE)
+ write.csv(특보구역, "export/특보구역.csv", row.names = FALSE)
+ write.csv(특보명령, "export/특보명령.csv", row.names = FALSE)
+ write.csv(특보수준, "export/특보수준.csv", row.names = FALSE)
+ write.csv(특보타입, "export/특보타입.csv", row.names = FALSE)
+ 
