@@ -297,4 +297,17 @@ WARN_CODE = dbGetQuery(conn,
  write.csv(특보명령, "export/특보명령.csv", row.names = FALSE)
  write.csv(특보수준, "export/특보수준.csv", row.names = FALSE)
  write.csv(특보타입, "export/특보타입.csv", row.names = FALSE)
- 
+##############################################################################
+##0726
+#지면온도(DB_SFC_TS_DD)
+ASOS_지면온도 = dbGetQuery(conn,
+   "SELECT TMA, STN_ID, AVG_TS, MAX_TS, MIN_TS
+   FROM DB_SFC_TS_DD
+   WHERE (TMA LIKE '2012%'
+   OR TMA LIKE '2013%'
+   OR TMA LIKE '2014%'
+   OR TMA LIKE '2015%'
+   OR TMA LIKE '2016%')
+   "
+   )
+write.csv(ASOS_지면온도, "export/ASOS_지면온도.csv", row.names = FALSE)
