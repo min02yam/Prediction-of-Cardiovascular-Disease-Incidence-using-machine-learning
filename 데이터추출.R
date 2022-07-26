@@ -311,3 +311,41 @@ ASOS_지면온도 = dbGetQuery(conn,
    "
    )
 write.csv(ASOS_지면온도, "export/ASOS_지면온도.csv", row.names = FALSE)
+
+#해양기상부이(지점정보: 해양기상부이관측지점)
+#DB_SEA_BUOY_DD
+#시각, 지점번호, 평균풍속, 평균수온,평균최대파고, 평균유의파고,  최대최고파고, 최대유의파고, 최저최고파고, 최저유의파고
+해양기상부이 = dbGetQuery(conn,
+   "SELECT TMA, STN_ID, AVG_WS, AVG_WRTM, AVG_MAX_WH, AVG_ATENT_WH, MAX_MAX_WH, MAX_ATENT_WH, MIN_MAX_WH, MIN_ATENT_WH
+   FROM DB_SEA_BUOY_DD
+   WHERE (TMA LIKE '2012%'
+   OR TMA LIKE '2013%'
+   OR TMA LIKE '2014%'
+   OR TMA LIKE '2015%'
+   OR TMA LIKE '2016%')
+   "
+   )
+View(해양기상부이)
+write.csv(해양기상부이, "export/해양기상부이.csv", row.names = FALSE)
+
+
+#등표기상관측(지점정보: 등표기상측지점)
+#DB_SEA_LB_DD
+#시각, 지점번호, 평균풍속, 평균수온, 평균최대파고, 평균유의파고,  최대최고파고, 최대유의파고, 최저최고파고, 최저유의파고
+등표기상관측 = dbGetQuery(conn,
+   "SELECT TMA, STN_ID, AVG_WS, AVG_WRTM,AVG_MAX_WH,AVG_ATENT_WH, MAX_MAX_WH, MAX_ATENT_WH, MIN_MAX_WH, MIN_ATENT_WH
+   FROM DB_SEA_LB_DD
+   WHERE (TMA LIKE '2012%'
+   OR TMA LIKE '2013%'
+   OR TMA LIKE '2014%'
+   OR TMA LIKE '2015%'
+   OR TMA LIKE '2016%')
+   "
+   )
+View(등표기상관측)
+write.csv(등표기상관측, "export/등표기상관측.csv", row.names = FALSE)
+
+###지점
+require(readr)
+등표기상관측지점 = read_csv("Readme/AreaInfo/등표기상관측지점.csv")
+해양기상부이관측지점 = read_csv("Readme/AreaInfo/해양기상부이관측지점.csv")
