@@ -1,4 +1,3 @@
-getwd()
 rm(list=ls())
 <<<<<<< HEAD
 
