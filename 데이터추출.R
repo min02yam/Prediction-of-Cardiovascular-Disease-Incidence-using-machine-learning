@@ -349,3 +349,5 @@ write.csv(등표기상관측, "export/등표기상관측.csv", row.names = FALSE
 require(readr)
 등표기상관측지점 = read_csv("Readme/AreaInfo/등표기상관측지점.csv")
 해양기상부이관측지점 = read_csv("Readme/AreaInfo/해양기상부이관측지점.csv")
+ write.csv(등표기상관측지점, "export/등표기상관측지점.csv", row.names = FALSE)
+ write.csv(해양기상부이관측지점, "export/해양기상부이관측지점.csv", row.names = FALSE)
