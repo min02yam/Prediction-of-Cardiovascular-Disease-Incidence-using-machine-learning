@@ -351,3 +351,98 @@ require(readr)
 해양기상부이관측지점 = read_csv("Readme/AreaInfo/해양기상부이관측지점.csv")
  write.csv(등표기상관측지점, "export/등표기상관측지점.csv", row.names = FALSE)
  write.csv(해양기상부이관측지점, "export/해양기상부이관측지점.csv", row.names = FALSE)
+
+##########################################
+##0729
+##적설 다시
+#  적설(DSNW) dsnw
+ ASOS_적설_2016 = dbGetQuery(conn,
+                      "SELECT tma, stn_id, dd_mes, dd_mefs 
+                FROM db_sfc_dsnw_dd
+                WHERE (tma LIKE '2012%'
+                OR tma LIKE '2013%'
+                OR tma LIKE '2014%' 
+                OR tma LIKE '2015%'
+                OR tma LIKE '2016%')"
+ )
+write.csv(ASOS_적설_2016, "export/ASOS_적설_2016.csv", row.names = FALSE)
+View(ASOS_적설_2016)
+###
+##항공
+ 항공  = dbGetQuery(conn,
+  "SELECT TM, STN_ID, MAX_WD, MAX_WS, MAX_IWS, MAX_TA, MIN_TA,MAX_PS, MIN_PS, MEFS, MES
+  FROM  DB_FLGHT_DD
+  WHERE (tm LIKE '2012%'
+  OR tm LIKE '2013%'
+  OR tm LIKE '2014%' 
+  OR tm LIKE '2015%'
+  OR tm LIKE '2016%')
+  ")
+View(항공)
+write.csv(항공, "export/항공.csv", row.names = FALSE)
+
+
+
+
+# 평년 구름 DB_SFC_NMYR_CLOUD_DD
+##평년 구름 시작년도, 월일, 지점번호, 평균 전운량
+구름_평년  = dbGetQuery(conn,
+ "SELECT ST_YEAR, MD, STN_ID, AVG_TCA
+  FROM  DB_SFC_NMYR_CLOUD_DD
+  WHERE   ST_YEAR >2010
+  ")
+
+View(구름_평년)
+write.csv(구름_평년, "export/구름_평년.csv", row.names = FALSE)
+
+
+# DB_AWS_RHM_TIM (AWS_상대습도_시) 
+ AWS_상대습도  = dbGetQuery(conn,
+  "SELECT TMA, STN_ID, MIN_RHM, MAX_RHM
+  FROM  DB_AWS_RHM_TIM
+  WHERE (ST_YEAR = 2012 
+  OR tm LIKE '2013%'
+  OR tm LIKE '2014%' 
+  OR tm LIKE '2015%'
+  OR tm LIKE '2016%')
+  ")
+
+View(AWS_상대습도)
+write.csv(AWS_상대습도, "export/AWS_상대습도.csv", row.names = FALSE)
+
+# 상대습도_비교
+# DB_SFC_RHM_DD_COMP : 지상_상대습도_비교
+# TMA, STN_ID, AVG_RHM, MIN_RHM, FOG_DUR
+# 시각, 지점번호, 평균 상대습도, 최소 상대습도, 안개 계속 시간
+ASOS_상대습도_비교 = dbGetQuery(conn,
+  "SELECT TMA, STN_ID, AVG_RHM, MIN_RHM, FOG_DUR
+   FROM  DB_SFC_RHM_DD_COMP 
+   WHERE (TMA LIKE '2012%'
+   OR TMA LIKE '2013%'
+   OR TMA LIKE '2014%'
+   OR TMA LIKE '2015%'
+   OR TMA LIKE '2016%')
+   ")
+
+View(ASOS_상대습도_비교)
+write.csv(ASOS_상대습도_비교, "export/ASOS_상대습도_비교.csv", row.names = FALSE)
+
+#DB_AWS_ICSR_SS_DD: AWS_일사
+#TMA, STN_ID, SUM_SS_HR, SUM_GSR
+#합계일조시간, 일조율, 합계 전천일사
+AWS_일사 = dbGetQuery(conn,
+  "SELECT TMA, STN_ID, SUM_SS_HR, SUM_GSR
+   FROM  DB_AWS_ICSR_SS_DD
+   WHERE (TMA LIKE '2012%'
+   OR TMA LIKE '2013%'
+   OR TMA LIKE '2014%'
+   OR TMA LIKE '2015%'
+   OR TMA LIKE '2016%')
+   ")
+View(AWS_일사)
+write.csv(AWS_일사, "export/ASOS_상대습도_비교.csv", row.names = FALSE)
+
+##
+방재기상관측_AWS_지점 = read_csv("Readme/AreaInfo/방재기상관측(AWS)지점.csv")
+View(방재기상관측_AWS_지점)
+write.csv(방재기상관측_AWS_지점, "export/방재기상관측_AWS_지점.csv", row.names = FALSE)
